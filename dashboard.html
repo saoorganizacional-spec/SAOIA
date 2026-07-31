@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>SAO IA</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,sans-serif;
+}
+
+body{
+
+background:#0f1724;
+color:white;
+height:100vh;
+overflow:hidden;
+
+}
+
+/*=======================*/
+/* CABECERA */
+/*=======================*/
+
+header{
+
+height:70px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+padding:0 25px;
+
+background:#111827;
+
+border-bottom:1px solid #202938;
+
+}
+
+.logo{
+
+display:flex;
+align-items:center;
+gap:15px;
+
+font-size:24px;
+font-weight:bold;
+
+color:#8CFF44;
+
+text-decoration:none;
+
+}
+
+.logo img{
+
+width:42px;
+
+}
+
+.search{
+
+width:450px;
+
+}
+
+.search input{
+
+width:100%;
+
+padding:12px;
+
+border-radius:12px;
+
+border:none;
+
+background:#1d2737;
+
+color:white;
+
+}
+
+.user{
+
+display:flex;
+align-items:center;
+gap:12px;
+
+}
+
+.avatar{
+
+width:42px;
+height:42px;
+
+border-radius:50%;
+
+background:#8CFF44;
+
+}
+
+/*=======================*/
+/* CONTENEDOR */
+/*=======================*/
+
+.container{
+
+display:flex;
+
+height:calc(100vh - 70px);
+
+}
+
+/*=======================*/
+/* MENÚ IZQUIERDO */
+/*=======================*/
+
+.sidebar{
+
+width:240px;
+
+background:#111827;
+
+padding:30px;
+
+}
+
+.sidebar ul{
+
+list-style:none;
+
+}
+
+.sidebar li{
+
+padding:18px;
+
+border-radius:12px;
+
+margin-bottom:10px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+.sidebar li:hover{
+
+background:#1f2937;
+
+}
+
+/*=======================*/
+/* CENTRO */
+/*=======================*/
+
+.main{
+
+flex:1;
+
+padding:40px;
+
+overflow:auto;
+
+}
+
+.card{
+
+background:#192233;
+
+border-radius:20px;
+
+padding:40px;
+
+min-height:500px;
+
+}
+
+.card h1{
+
+font-size:38px;
+
+margin-bottom:20px;
+
+}
+
+.card p{
+
+font-size:18px;
+
+color:#ccc;
+
+line-height:1.8;
+
+}
+
+/*=======================*/
+/* PANEL DERECHO */
+/*=======================*/
+
+.right{
+
+width:260px;
+
+background:#111827;
+
+padding:30px;
+
+}
+
+.right h2{
+
+margin-bottom:20px;
+
+}
+
+.box{
+
+background:#1f2937;
+
+padding:20px;
+
+border-radius:15px;
+
+margin-bottom:20px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<a href="index.html" class="logo">
+
+<img src="logo.png">
+
+SAO IA
+
+</a>
+
+<div class="search">
+
+<input type="text" placeholder="Buscar...">
+
+</div>
+
+<div class="user">
+
+Usuario
+
+<div class="avatar"></div>
+
+</div>
+
+</header>
+
+<div class="container">
+
+<!-- MENU -->
+
+<div class="sidebar">
+
+<ul>
+
+<li>📊 Dashboard</li>
+
+<li>🤖 Agentes IA</li>
+
+<li>📈 Trading</li>
+
+<li>🎵 Música</li>
+
+<li>🎬 Videos</li>
+
+<li>📁 Documentos</li>
+
+<li>💬 Chat</li>
+
+<li>📧 Correo</li>
+
+<li>🧠 IA Office</li>
+
+<li>⚙ Ajustes</li>
+
+</ul>
+
+</div>
+
+<!-- CENTRO -->
+
+<div class="main">
+
+<div class="card">
+
+<h1>Bienvenido a SAO IA</h1>
+
+<p>
+
+Este será el núcleo del sistema.
+
+Aquí podrás integrar:
+
+<br><br>
+
+✔ Chat IA
+
+<br>
+
+✔ Trading IA
+
+<br>
+
+✔ Office (Word, Excel, PowerPoint)
+
+<br>
+
+✔ Google Workspace
+
+<br>
+
+✔ CRM
+
+<br>
+
+✔ ERP
+
+<br>
+
+✔ Automatizaciones
+
+<br>
+
+✔ Agentes inteligentes
+
+<br>
+
+✔ Análisis de documentos
+
+<br>
+
+✔ Videos
+
+<br>
+
+✔ Música
+
+<br>
+
+✔ API
+
+<br>
+
+✔ Marketplace
+
+</p>
+
+</div>
+
+</div>
+
+<!-- PANEL DERECHO -->
+
+<div class="right">
+
+<h2>Propiedades</h2>
+
+<div class="box">
+
+CPU
+
+</div>
+
+<div class="box">
+
+Memoria
+
+</div>
+
+<div class="box">
+
+Agente activo
+
+</div>
+
+<div class="box">
+
+Estado del sistema
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
