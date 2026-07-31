@@ -1,20 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>SAO | Sistema de Análisis Organizacional</title>
+<title>SAO IA</title>
 
-<meta name="description"
-content="SAO - Tu asistente inteligente para negocios y vida">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 
@@ -22,23 +15,25 @@ content="SAO - Tu asistente inteligente para negocios y vida">
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:'Inter',sans-serif;
+font-family:Inter,sans-serif;
 }
 
 body{
 
-background:
-radial-gradient(circle at top,#1b2f55,#090b11);
-
+background:#0f1724;
 color:white;
-
-overflow-x:hidden;
+height:100vh;
+overflow:hidden;
 
 }
 
-nav{
+/*=======================*/
+/* CABECERA */
+/*=======================*/
 
-height:80px;
+header{
+
+height:70px;
 
 display:flex;
 
@@ -46,205 +41,199 @@ align-items:center;
 
 justify-content:space-between;
 
-padding:0 8%;
+padding:0 25px;
 
-position:fixed;
+background:#111827;
 
-width:100%;
-
-backdrop-filter:blur(20px);
-
-background:rgba(10,10,15,.4);
-
-z-index:1000;
+border-bottom:1px solid #202938;
 
 }
 
 .logo{
 
-font-size:28px;
+display:flex;
+align-items:center;
+gap:15px;
 
-font-weight:700;
+font-size:24px;
+font-weight:bold;
 
 color:#8CFF44;
 
 }
 
-nav ul{
+.logo img{
+
+width:42px;
+
+}
+
+.search{
+
+width:450px;
+
+}
+
+.search input{
+
+width:100%;
+
+padding:12px;
+
+border-radius:12px;
+
+border:none;
+
+background:#1d2737;
+
+color:white;
+
+}
+
+.user{
+
+display:flex;
+align-items:center;
+gap:12px;
+
+}
+
+.avatar{
+
+width:42px;
+height:42px;
+
+border-radius:50%;
+
+background:#8CFF44;
+
+}
+
+/*=======================*/
+/* CONTENEDOR */
+/*=======================*/
+
+.container{
 
 display:flex;
 
-gap:40px;
+height:calc(100vh - 70px);
+
+}
+
+/*=======================*/
+/* MENÚ IZQUIERDO */
+/*=======================*/
+
+.sidebar{
+
+width:240px;
+
+background:#111827;
+
+padding:30px;
+
+}
+
+.sidebar ul{
 
 list-style:none;
 
 }
 
-nav a{
+.sidebar li{
 
-color:white;
+padding:18px;
 
-text-decoration:none;
+border-radius:12px;
 
-font-size:15px;
+margin-bottom:10px;
 
-}
+cursor:pointer;
 
-.hero{
-
-min-height:100vh;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-flex-direction:column;
-
-text-align:center;
-
-padding:100px 30px;
+transition:.3s;
 
 }
 
-.hero img{
+.sidebar li:hover{
 
-width:220px;
-
-margin-bottom:40px;
+background:#1f2937;
 
 }
 
-.hero h1{
+/*=======================*/
+/* CENTRO */
+/*=======================*/
 
-font-size:70px;
+.main{
 
-font-weight:800;
+flex:1;
 
-}
+padding:40px;
 
-.hero h2{
-
-font-size:26px;
-
-font-weight:300;
-
-margin-top:15px;
-
-color:#cfcfcf;
+overflow:auto;
 
 }
 
-.hero p{
+.card{
 
-max-width:900px;
+background:#192233;
 
-margin-top:40px;
+border-radius:20px;
 
-font-size:20px;
+padding:40px;
+
+min-height:500px;
+
+}
+
+.card h1{
+
+font-size:38px;
+
+margin-bottom:20px;
+
+}
+
+.card p{
+
+font-size:18px;
+
+color:#ccc;
 
 line-height:1.8;
 
-color:#d4d4d4;
+}
+
+/*=======================*/
+/* PANEL DERECHO */
+/*=======================*/
+
+.right{
+
+width:260px;
+
+background:#111827;
+
+padding:30px;
 
 }
 
-.buttons{
+.right h2{
 
-margin-top:50px;
-
-display:flex;
-
-gap:25px;
-
-flex-wrap:wrap;
-
-justify-content:center;
+margin-bottom:20px;
 
 }
 
-.btn{
+.box{
 
-padding:18px 40px;
+background:#1f2937;
 
-border-radius:50px;
+padding:20px;
 
-font-size:17px;
+border-radius:15px;
 
-text-decoration:none;
-
-transition:.4s;
-
-}
-
-.primary{
-
-background:#8CFF44;
-
-color:#111;
-
-font-weight:bold;
-
-}
-
-.secondary{
-
-border:1px solid white;
-
-color:white;
-
-}
-
-.primary:hover{
-
-transform:translateY(-4px);
-
-}
-
-.secondary:hover{
-
-background:white;
-
-color:black;
-
-}
-
-footer{
-
-padding:60px;
-
-text-align:center;
-
-color:#bdbdbd;
-
-}
-
-@media(max-width:768px){
-
-.hero h1{
-
-font-size:45px;
-
-}
-
-.hero h2{
-
-font-size:20px;
-
-}
-
-.hero p{
-
-font-size:17px;
-
-}
-
-nav ul{
-
-display:none;
-
-}
+margin-bottom:20px;
 
 }
 
@@ -254,71 +243,169 @@ display:none;
 
 <body>
 
-<nav>
+<header>
 
 <div class="logo">
 
-SAO
+<img src="logo.png">
+
+SAO IA
 
 </div>
+
+<div class="search">
+
+<input type="text" placeholder="Buscar...">
+
+</div>
+
+<div class="user">
+
+Usuario
+
+<div class="avatar"></div>
+
+</div>
+
+</header>
+
+<div class="container">
+
+<!-- MENU -->
+
+<div class="sidebar">
 
 <ul>
 
-<li><a href="#">Productos</a></li>
+<li>📊 Dashboard</li>
 
-<li><a href="#">Soluciones</a></li>
+<li>🤖 Agentes IA</li>
 
-<li><a href="#">API</a></li>
+<li>📈 Trading</li>
 
-<li><a href="#">Empresas</a></li>
+<li>🎵 Música</li>
 
-<li><a href="#">Contacto</a></li>
+<li>🎬 Videos</li>
+
+<li>📁 Documentos</li>
+
+<li>💬 Chat</li>
+
+<li>📧 Correo</li>
+
+<li>🧠 IA Office</li>
+
+<li>⚙ Ajustes</li>
 
 </ul>
 
-</nav>
+</div>
 
-<section class="hero">
+<!-- CENTRO -->
 
-<img src="logo.png" alt="SAO">
+<div class="main">
 
-<h1>SAO</h1>
+<div class="card">
 
-<h2>Sistema de Análisis Organizacional</h2>
+<h1>Bienvenido a SAO IA</h1>
 
 <p>
 
-Tu asistente inteligente para negocios y vida.
+Este será el núcleo del sistema.
 
-Una plataforma diseñada para integrar Inteligencia Artificial,
-automatización, productividad y herramientas empresariales
-en un solo lugar.
+Aquí podrás integrar:
+
+<br><br>
+
+✔ Chat IA
+
+<br>
+
+✔ Trading IA
+
+<br>
+
+✔ Office (Word, Excel, PowerPoint)
+
+<br>
+
+✔ Google Workspace
+
+<br>
+
+✔ CRM
+
+<br>
+
+✔ ERP
+
+<br>
+
+✔ Automatizaciones
+
+<br>
+
+✔ Agentes inteligentes
+
+<br>
+
+✔ Análisis de documentos
+
+<br>
+
+✔ Videos
+
+<br>
+
+✔ Música
+
+<br>
+
+✔ API
+
+<br>
+
+✔ Marketplace
 
 </p>
 
-<div class="buttons">
-
-<a href="#" class="btn primary">
-
-Comenzar
-
-</a>
-
-<a href="#" class="btn secondary">
-
-Conocer SAO
-
-</a>
+</div>
 
 </div>
 
-</section>
+<!-- PANEL DERECHO -->
 
-<footer>
+<div class="right">
 
-© 2026 SAO · Sistema de Análisis Organizacional
+<h2>Propiedades</h2>
 
-</footer>
+<div class="box">
+
+CPU
+
+</div>
+
+<div class="box">
+
+Memoria
+
+</div>
+
+<div class="box">
+
+Agente activo
+
+</div>
+
+<div class="box">
+
+Estado del sistema
+
+</div>
+
+</div>
+
+</div>
 
 </body>
 
