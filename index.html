@@ -1,325 +1,889 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>SAO | Sistema de Análisis Organizacional</title>
-
-<meta name="description"
-content="SAO - Tu asistente inteligente para negocios y vida">
+<meta name="description" content="SAO - Tu asistente inteligente para negocios y vida">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Inter',sans-serif;
+:root{
+  --bg-deep:#05070c;
+  --bg-mid:#0c1526;
+  --bg-glow:#16274d;
+  --lime:#8CFF44;
+  --lime-soft:rgba(140,255,68,.14);
+  --lime-line:rgba(140,255,68,.18);
+  --ink:#eef2f7;
+  --ink-muted:#93a0b8;
+  --panel:#0d1526;
+  --panel-border:rgba(140,255,68,.10);
 }
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html{scroll-behavior:smooth;}
 
 body{
-
-background:
-radial-gradient(circle at top,#1b2f55,#090b11);
-
-color:white;
-
-overflow-x:hidden;
-
+  font-family:'Inter',sans-serif;
+  background:
+    radial-gradient(circle at 50% -10%, var(--bg-glow), transparent 55%),
+    radial-gradient(circle at 100% 100%, #0d1a12, transparent 40%),
+    var(--bg-deep);
+  color:var(--ink);
+  overflow-x:hidden;
 }
 
+.mono{font-family:'JetBrains Mono',monospace;}
+
+h1,h2,h3{font-family:'Space Grotesk',sans-serif;}
+
+a{color:inherit;}
+
+::selection{background:var(--lime);color:#08110a;}
+
+:focus-visible{outline:2px solid var(--lime);outline-offset:3px;}
+
+/* ---------- NAV ---------- */
+
 nav{
+  height:76px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 6%;
+  position:fixed;
+  top:0;
+  width:100%;
+  backdrop-filter:blur(18px);
+  background:rgba(5,7,12,.55);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  z-index:1000;
+  transition:background .3s ease, border-color .3s ease;
+}
 
-height:80px;
-
-display:flex;
-
-align-items:center;
-
-justify-content:space-between;
-
-padding:0 8%;
-
-position:fixed;
-
-width:100%;
-
-backdrop-filter:blur(20px);
-
-background:rgba(10,10,15,.4);
-
-z-index:1000;
-
+nav.scrolled{
+  background:rgba(5,7,12,.85);
+  border-bottom-color:rgba(140,255,68,.12);
 }
 
 .logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:22px;
+  font-weight:700;
+  color:var(--lime);
+  letter-spacing:.5px;
+}
 
-font-size:28px;
+.logo .dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--lime);
+  box-shadow:0 0 10px 2px var(--lime);
+  animation:pulseDot 2.4s ease-in-out infinite;
+}
 
-font-weight:700;
-
-color:#8CFF44;
-
+@keyframes pulseDot{
+  0%,100%{opacity:1;transform:scale(1);}
+  50%{opacity:.4;transform:scale(.7);}
 }
 
 nav ul{
-
-display:flex;
-
-gap:40px;
-
-list-style:none;
-
+  display:flex;
+  gap:44px;
+  list-style:none;
 }
 
-nav a{
-
-color:white;
-
-text-decoration:none;
-
-font-size:15px;
-
+nav ul li a{
+  position:relative;
+  text-decoration:none;
+  font-size:14px;
+  color:var(--ink-muted);
+  letter-spacing:.2px;
+  transition:color .25s ease;
+  padding-bottom:4px;
 }
+
+nav ul li a::after{
+  content:'';
+  position:absolute;
+  left:0;bottom:0;
+  width:0%;
+  height:1px;
+  background:var(--lime);
+  transition:width .3s ease;
+}
+
+nav ul li a:hover{color:var(--ink);}
+nav ul li a:hover::after{width:100%;}
+
+.nav-cta{
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+
+.nav-btn{
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  padding:10px 22px;
+  border-radius:30px;
+  border:1px solid var(--lime-line);
+  color:var(--lime);
+  text-decoration:none;
+  transition:.3s ease;
+}
+
+.nav-btn:hover{
+  background:var(--lime-soft);
+  box-shadow:0 0 20px -4px var(--lime);
+}
+
+.burger{
+  display:none;
+  flex-direction:column;
+  gap:5px;
+  cursor:pointer;
+  background:none;
+  border:none;
+}
+
+.burger span{
+  width:24px;height:2px;background:var(--ink);
+  transition:.3s ease;
+}
+
+/* ---------- HERO ---------- */
 
 .hero{
-
-min-height:100vh;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-flex-direction:column;
-
-text-align:center;
-
-padding:100px 30px;
-
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:140px 30px 80px;
+  overflow:hidden;
 }
 
-.hero img{
+#network-canvas{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+  opacity:.75;
+}
 
-width:220px;
+.hero-inner{
+  position:relative;
+  z-index:2;
+  text-align:center;
+  max-width:960px;
+}
 
-margin-bottom:40px;
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:12.5px;
+  letter-spacing:2px;
+  color:var(--lime);
+  border:1px solid var(--lime-line);
+  padding:8px 18px;
+  border-radius:30px;
+  background:rgba(140,255,68,.05);
+  opacity:0;
+  animation:fadeUp .8s ease forwards;
+}
 
+.eyebrow::before{
+  content:'';
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--lime);
+  box-shadow:0 0 8px var(--lime);
 }
 
 .hero h1{
-
-font-size:70px;
-
-font-weight:800;
-
+  font-size:clamp(52px,9vw,104px);
+  font-weight:700;
+  letter-spacing:-2px;
+  margin-top:28px;
+  opacity:0;
+  animation:fadeUp .9s ease .15s forwards;
+  background:linear-gradient(180deg,#ffffff 0%,#c9d6e8 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
 }
 
 .hero h2{
-
-font-size:26px;
-
-font-weight:300;
-
-margin-top:15px;
-
-color:#cfcfcf;
-
+  font-size:clamp(18px,2.4vw,26px);
+  font-weight:400;
+  margin-top:14px;
+  color:var(--ink-muted);
+  min-height:34px;
+  opacity:0;
+  animation:fadeUp .9s ease .3s forwards;
 }
 
+.hero h2 #typed{color:var(--ink);}
+
+.hero h2 .cursor{
+  display:inline-block;
+  width:2px;
+  background:var(--lime);
+  margin-left:2px;
+  animation:blink 1s step-end infinite;
+}
+
+@keyframes blink{50%{opacity:0;}}
+
 .hero p{
-
-max-width:900px;
-
-margin-top:40px;
-
-font-size:20px;
-
-line-height:1.8;
-
-color:#d4d4d4;
-
+  max-width:680px;
+  margin:34px auto 0;
+  font-size:18px;
+  line-height:1.8;
+  color:var(--ink-muted);
+  opacity:0;
+  animation:fadeUp .9s ease .45s forwards;
 }
 
 .buttons{
-
-margin-top:50px;
-
-display:flex;
-
-gap:25px;
-
-flex-wrap:wrap;
-
-justify-content:center;
-
+  margin-top:44px;
+  display:flex;
+  gap:22px;
+  flex-wrap:wrap;
+  justify-content:center;
+  opacity:0;
+  animation:fadeUp .9s ease .6s forwards;
 }
 
 .btn{
-
-padding:18px 40px;
-
-border-radius:50px;
-
-font-size:17px;
-
-text-decoration:none;
-
-transition:.4s;
-
+  position:relative;
+  padding:17px 38px;
+  border-radius:50px;
+  font-size:16px;
+  font-weight:600;
+  text-decoration:none;
+  overflow:hidden;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease;
 }
 
 .primary{
-
-background:#8CFF44;
-
-color:#111;
-
-font-weight:bold;
-
-}
-
-.secondary{
-
-border:1px solid white;
-
-color:white;
-
+  background:var(--lime);
+  color:#08110a;
 }
 
 .primary:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 34px -8px rgba(140,255,68,.55);
+}
 
-transform:translateY(-4px);
-
+.secondary{
+  border:1px solid rgba(255,255,255,.25);
+  color:var(--ink);
 }
 
 .secondary:hover{
-
-background:white;
-
-color:black;
-
+  background:rgba(255,255,255,.06);
+  border-color:rgba(255,255,255,.5);
+  transform:translateY(-4px);
 }
 
+/* live status strip */
+
+.status-strip{
+  margin-top:70px;
+  display:flex;
+  gap:0;
+  justify-content:center;
+  flex-wrap:wrap;
+  border-top:1px solid rgba(255,255,255,.08);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  padding:26px 0;
+  opacity:0;
+  animation:fadeUp .9s ease .75s forwards;
+}
+
+.stat{
+  padding:0 40px;
+  text-align:left;
+  border-right:1px solid rgba(255,255,255,.08);
+}
+
+.stat:last-child{border-right:none;}
+
+.stat .num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:28px;
+  color:var(--lime);
+  font-weight:500;
+}
+
+.stat .label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11.5px;
+  letter-spacing:1px;
+  color:var(--ink-muted);
+  margin-top:4px;
+  text-transform:uppercase;
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(18px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* ---------- REVEAL ---------- */
+
+.reveal{
+  opacity:0;
+  transform:translateY(32px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+
+.reveal.in{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ---------- SECTION SHELL ---------- */
+
+section.block{
+  padding:130px 8%;
+  position:relative;
+}
+
+.section-head{
+  text-align:center;
+  max-width:640px;
+  margin:0 auto 70px;
+}
+
+.section-head .tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  letter-spacing:2px;
+  color:var(--lime);
+  text-transform:uppercase;
+}
+
+.section-head h3{
+  font-size:clamp(30px,4vw,44px);
+  margin-top:16px;
+  letter-spacing:-1px;
+}
+
+.section-head p{
+  margin-top:18px;
+  color:var(--ink-muted);
+  font-size:16.5px;
+  line-height:1.7;
+}
+
+/* ---------- MODULE GRID ---------- */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+  gap:22px;
+  max-width:1200px;
+  margin:0 auto;
+}
+
+.card{
+  position:relative;
+  background:var(--panel);
+  border:1px solid var(--panel-border);
+  border-radius:18px;
+  padding:32px 28px;
+  overflow:hidden;
+  transition:transform .35s ease, border-color .35s ease, background .35s ease;
+}
+
+.card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(180px circle at var(--mx,50%) var(--my,50%), rgba(140,255,68,.10), transparent 70%);
+  opacity:0;
+  transition:opacity .3s ease;
+  pointer-events:none;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  border-color:var(--lime-line);
+  background:#0f1a2e;
+}
+
+.card:hover::before{opacity:1;}
+
+.card .node-id{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11.5px;
+  color:var(--lime);
+  letter-spacing:1px;
+  opacity:.85;
+}
+
+.card .icon{
+  font-size:26px;
+  margin-top:18px;
+  display:inline-block;
+}
+
+.card h4{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:19px;
+  margin-top:14px;
+  font-weight:600;
+}
+
+.card p{
+  margin-top:10px;
+  font-size:14.5px;
+  color:var(--ink-muted);
+  line-height:1.65;
+}
+
+/* ---------- PIPELINE ---------- */
+
+.pipeline{
+  max-width:1100px;
+  margin:0 auto;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:20px;
+  position:relative;
+}
+
+.pipeline::before{
+  content:'';
+  position:absolute;
+  top:26px;
+  left:6%;
+  right:6%;
+  height:1px;
+  background:linear-gradient(90deg, transparent, var(--lime-line) 15%, var(--lime-line) 85%, transparent);
+}
+
+.pipe-step{
+  flex:1;
+  text-align:center;
+  position:relative;
+}
+
+.pipe-marker{
+  width:52px;height:52px;
+  border-radius:50%;
+  background:var(--bg-deep);
+  border:1px solid var(--lime-line);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto;
+  font-family:'JetBrains Mono',monospace;
+  color:var(--lime);
+  font-size:14px;
+  position:relative;
+  z-index:2;
+  transition:box-shadow .3s ease, transform .3s ease;
+}
+
+.pipe-step:hover .pipe-marker{
+  box-shadow:0 0 0 6px rgba(140,255,68,.08);
+  transform:scale(1.06);
+}
+
+.pipe-step h4{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:18px;
+  margin-top:22px;
+}
+
+.pipe-step p{
+  margin-top:10px;
+  font-size:14px;
+  color:var(--ink-muted);
+  line-height:1.6;
+  max-width:220px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+/* ---------- CTA BAND ---------- */
+
+.cta-band{
+  max-width:1100px;
+  margin:0 auto;
+  background:linear-gradient(135deg, #0d1a12, #0c1526);
+  border:1px solid var(--panel-border);
+  border-radius:26px;
+  padding:70px 60px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.cta-band::after{
+  content:'';
+  position:absolute;
+  width:420px;height:420px;
+  background:radial-gradient(circle, rgba(140,255,68,.14), transparent 70%);
+  top:-160px;right:-120px;
+  pointer-events:none;
+}
+
+.cta-band h3{
+  font-size:clamp(28px,4vw,40px);
+}
+
+.cta-band p{
+  margin-top:16px;
+  color:var(--ink-muted);
+  max-width:480px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.cta-band .buttons{
+  animation:none;
+  opacity:1;
+  margin-top:38px;
+}
+
+/* ---------- FOOTER ---------- */
+
 footer{
+  padding:50px 8% 40px;
+  border-top:1px solid rgba(255,255,255,.06);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:16px;
+}
 
-padding:60px;
+footer .status{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  color:var(--ink-muted);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
 
-text-align:center;
+footer .status .dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--lime);
+  box-shadow:0 0 8px var(--lime);
+}
 
-color:#bdbdbd;
+footer .copy{
+  font-size:13px;
+  color:var(--ink-muted);
+}
 
+/* ---------- RESPONSIVE ---------- */
+
+@media(max-width:900px){
+  nav ul{display:none;}
+  .burger{display:flex;}
+  .nav-btn{display:none;}
 }
 
 @media(max-width:768px){
-
-.hero h1{
-
-font-size:45px;
-
+  .hero{padding-top:120px;}
+  .status-strip{gap:0;}
+  .stat{padding:14px 24px;border-right:none;border-bottom:1px solid rgba(255,255,255,.08);width:100%;text-align:center;}
+  section.block{padding:90px 6%;}
+  .pipeline{flex-direction:column;gap:50px;}
+  .pipeline::before{display:none;}
+  .cta-band{padding:50px 28px;}
+  footer{flex-direction:column;text-align:center;}
 }
 
-.hero h2{
-
-font-size:20px;
-
-}
-
-.hero p{
-
-font-size:17px;
-
-}
-
-nav ul{
-
-display:none;
-
-}
-
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important;}
 }
 
 </style>
-
 </head>
 
 <body>
 
-<nav>
+<nav id="navbar">
+  <div class="logo"><span class="dot"></span>SAO</div>
 
-<div class="logo">
+  <ul>
+    <li><a href="#modulos">Productos</a></li>
+    <li><a href="#pipeline">Soluciones</a></li>
+    <li><a href="#">API</a></li>
+    <li><a href="#">Empresas</a></li>
+    <li><a href="#">Contacto</a></li>
+  </ul>
 
-SAO
-
-</div>
-
-<ul>
-
-<li><a href="#">Productos</a></li>
-
-<li><a href="#">Soluciones</a></li>
-
-<li><a href="#">API</a></li>
-
-<li><a href="#">Empresas</a></li>
-
-<li><a href="#">Contacto</a></li>
-
-</ul>
-
+  <div class="nav-cta">
+    <a href="dashboard.html" class="nav-btn">Entrar →</a>
+    <button class="burger" id="burger" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+  </div>
 </nav>
 
 <section class="hero">
 
-<img src="logo.png" alt="SAO">
+  <canvas id="network-canvas"></canvas>
 
-<h1>SAO</h1>
+  <div class="hero-inner">
+    <span class="eyebrow">SISTEMA EN LÍNEA · ANÁLISIS EN TIEMPO REAL</span>
 
-<h2>Sistema de Análisis Organizacional</h2>
+    <h1>SAO</h1>
 
-<p>
+    <h2>Sistema de <span id="typed"></span><span class="cursor">&nbsp;</span></h2>
 
-Tu asistente inteligente para negocios y vida.
+    <p>
+      Tu asistente inteligente para negocios y vida.
+      Una plataforma diseñada para integrar Inteligencia Artificial,
+      automatización, productividad y herramientas empresariales
+      en un solo lugar.
+    </p>
 
-Una plataforma diseñada para integrar Inteligencia Artificial,
-automatización, productividad y herramientas empresariales
-en un solo lugar.
+    <div class="buttons">
+      <a href="dashboard.html" class="btn primary">Comenzar</a>
+      <a href="#modulos" class="btn secondary">Conocer SAO</a>
+    </div>
 
-</p>
-
-<div class="buttons">
-
-<a href="dashboard.html" class="btn primary">
-
-Comenzar
-
-</a>
-
-<a href="#" class="btn secondary">
-
-Conocer SAO
-
-</a>
-
-</div>
+    <div class="status-strip">
+      <div class="stat"><div class="num" data-target="12">0</div><div class="label">Módulos activos</div></div>
+      <div class="stat"><div class="num" data-target="98" data-suffix="%">0</div><div class="label">Precisión de análisis</div></div>
+      <div class="stat"><div class="num" data-target="24" data-suffix="/7">0</div><div class="label">Monitoreo continuo</div></div>
+      <div class="stat"><div class="num" data-target="340" data-suffix="ms">0</div><div class="label">Latencia media</div></div>
+    </div>
+  </div>
 
 </section>
 
+<section class="block reveal" id="modulos">
+  <div class="section-head">
+    <span class="tag">// núcleo</span>
+    <h3>Un módulo por cada nodo de tu organización</h3>
+    <p>Cada herramienta conecta con el mismo motor de análisis, así que tus datos se mueven en un solo grafo, no en silos separados.</p>
+  </div>
+
+  <div class="grid" id="module-grid">
+    <div class="card"><span class="node-id">N-01 · CHAT</span><span class="icon">💬</span><h4>Chat IA</h4><p>Conversaciones contextuales conectadas a todos tus datos organizacionales.</p></div>
+    <div class="card"><span class="node-id">N-02 · TRADING</span><span class="icon">📈</span><h4>Trading IA</h4><p>Señales y análisis de mercado en tiempo real con modelos predictivos.</p></div>
+    <div class="card"><span class="node-id">N-03 · OFFICE</span><span class="icon">🧠</span><h4>IA Office</h4><p>Word, Excel y PowerPoint asistidos por IA, sin salir de tu flujo.</p></div>
+    <div class="card"><span class="node-id">N-04 · WORKSPACE</span><span class="icon">📁</span><h4>Google Workspace</h4><p>Documentos, correo y agenda sincronizados con el análisis central.</p></div>
+    <div class="card"><span class="node-id">N-05 · CRM</span><span class="icon">🤝</span><h4>CRM</h4><p>Relaciones con clientes analizadas y priorizadas automáticamente.</p></div>
+    <div class="card"><span class="node-id">N-06 · ERP</span><span class="icon">⚙</span><h4>ERP</h4><p>Recursos, inventario y operaciones bajo un mismo tablero.</p></div>
+    <div class="card"><span class="node-id">N-07 · AUTOMATIZACIÓN</span><span class="icon">🔁</span><h4>Automatizaciones</h4><p>Flujos que se ejecutan solos cuando el sistema detecta un patrón.</p></div>
+    <div class="card"><span class="node-id">N-08 · AGENTES</span><span class="icon">🤖</span><h4>Agentes inteligentes</h4><p>Equipos de agentes IA trabajando tareas específicas 24/7.</p></div>
+    <div class="card"><span class="node-id">N-09 · MARKETPLACE</span><span class="icon">🛒</span><h4>Marketplace</h4><p>Extiende SAO con integraciones creadas por la comunidad.</p></div>
+  </div>
+</section>
+
+<section class="block reveal" id="pipeline">
+  <div class="section-head">
+    <span class="tag">// cómo funciona</span>
+    <h3>De los datos crudos a la decisión</h3>
+    <p>El mismo pipeline detrás de cada módulo, siempre visible y siempre auditable.</p>
+  </div>
+
+  <div class="pipeline">
+    <div class="pipe-step">
+      <div class="pipe-marker">IN</div>
+      <h4>Captura</h4>
+      <p>SAO recolecta datos de tus herramientas y equipos en tiempo real.</p>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-marker">AI</div>
+      <h4>Análisis</h4>
+      <p>Los modelos cruzan variables y detectan patrones organizacionales.</p>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-marker">OUT</div>
+      <h4>Acción</h4>
+      <p>Recomendaciones y automatizaciones listas para ejecutarse.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block reveal">
+  <div class="cta-band">
+    <h3>Conecta tu organización al análisis en tiempo real</h3>
+    <p>Sin configuraciones complejas. Un panel, todos tus módulos, un solo grafo de datos.</p>
+    <div class="buttons">
+      <a href="dashboard.html" class="btn primary">Comenzar</a>
+    </div>
+  </div>
+</section>
+
 <footer>
-
-© 2026 SAO · Sistema de Análisis Organizacional
-
+  <div class="status"><span class="dot"></span>SISTEMA OPERATIVO</div>
+  <div class="copy">© 2026 SAO · Sistema de Análisis Organizacional</div>
 </footer>
 
-</body>
+<script>
 
+/* ---------- NAV SCROLL STATE ---------- */
+const nav = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 30);
+}, {passive:true});
+
+/* ---------- TYPING EFFECT ---------- */
+const words = ['Análisis Organizacional','Decisiones Inteligentes','Datos en Tiempo Real','Equipos Conectados'];
+const typedEl = document.getElementById('typed');
+let wi = 0, ci = 0, deleting = false;
+
+function typeLoop(){
+  const word = words[wi];
+  if(!deleting){
+    ci++;
+    typedEl.textContent = word.slice(0, ci);
+    if(ci === word.length){ deleting = true; setTimeout(typeLoop, 1600); return; }
+  } else {
+    ci--;
+    typedEl.textContent = word.slice(0, ci);
+    if(ci === 0){ deleting = false; wi = (wi+1) % words.length; }
+  }
+  setTimeout(typeLoop, deleting ? 35 : 65);
+}
+typeLoop();
+
+/* ---------- COUNTERS ---------- */
+const stats = document.querySelectorAll('.stat .num');
+const statObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const el = entry.target;
+      const target = +el.dataset.target;
+      const suffix = el.dataset.suffix || '';
+      const start = performance.now();
+      const dur = 1400;
+      function step(now){
+        const p = Math.min((now-start)/dur, 1);
+        const eased = 1 - Math.pow(1-p, 3);
+        el.textContent = Math.round(eased*target) + suffix;
+        if(p<1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+      statObserver.unobserve(el);
+    }
+  });
+}, {threshold:.5});
+stats.forEach(el => statObserver.observe(el));
+
+/* ---------- SCROLL REVEAL ---------- */
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('in');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, {threshold:.12});
+revealEls.forEach(el => revealObserver.observe(el));
+
+/* ---------- CARD SPOTLIGHT ---------- */
+document.querySelectorAll('.card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  });
+});
+
+/* ---------- MOBILE MENU (simple) ---------- */
+const burger = document.getElementById('burger');
+burger.addEventListener('click', () => {
+  const list = document.querySelector('nav ul');
+  const open = list.style.display === 'flex';
+  list.style.display = open ? 'none' : 'flex';
+  list.style.cssText += `
+    ${open ? '' : 'position:fixed;top:76px;left:0;right:0;background:#05070c;flex-direction:column;padding:24px 8%;gap:22px;border-bottom:1px solid rgba(140,255,68,.12);'}
+  `;
+});
+
+/* ---------- NETWORK CANVAS ---------- */
+const canvas = document.getElementById('network-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, nodes = [];
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function resize(){
+  W = canvas.width = canvas.offsetWidth * devicePixelRatio;
+  H = canvas.height = canvas.offsetHeight * devicePixelRatio;
+}
+window.addEventListener('resize', resize);
+
+function initNodes(){
+  nodes = [];
+  const count = window.innerWidth < 700 ? 26 : 46;
+  for(let i=0;i<count;i++){
+    nodes.push({
+      x: Math.random()*W,
+      y: Math.random()*H,
+      vx: (Math.random()-0.5)*0.15*devicePixelRatio,
+      vy: (Math.random()-0.5)*0.15*devicePixelRatio,
+      r: (Math.random()*1.6+1)*devicePixelRatio
+    });
+  }
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  const maxDist = 150*devicePixelRatio;
+
+  for(let i=0;i<nodes.length;i++){
+    const n = nodes[i];
+    n.x += n.vx; n.y += n.vy;
+    if(n.x<0||n.x>W) n.vx*=-1;
+    if(n.y<0||n.y>H) n.vy*=-1;
+  }
+
+  for(let i=0;i<nodes.length;i++){
+    for(let j=i+1;j<nodes.length;j++){
+      const a = nodes[i], b = nodes[j];
+      const dx=a.x-b.x, dy=a.y-b.y;
+      const dist = Math.sqrt(dx*dx+dy*dy);
+      if(dist<maxDist){
+        ctx.strokeStyle = `rgba(140,255,68,${(1-dist/maxDist)*0.22})`;
+        ctx.lineWidth = devicePixelRatio*0.6;
+        ctx.beginPath();
+        ctx.moveTo(a.x,a.y);
+        ctx.lineTo(b.x,b.y);
+        ctx.stroke();
+      }
+    }
+  }
+
+  for(const n of nodes){
+    ctx.beginPath();
+    ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+    ctx.fillStyle = 'rgba(140,255,68,.55)';
+    ctx.fill();
+  }
+
+  if(!reducedMotion) requestAnimationFrame(draw);
+}
+
+resize();
+initNodes();
+draw();
+
+</script>
+
+</body>
 </html>
